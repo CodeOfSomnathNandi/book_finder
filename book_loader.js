@@ -8,6 +8,7 @@ window.onload = (ev) => {
         init()
     } else {
         document.getElementById("loadingScreen").style.display = "none"
+        document.getElementById("not_found").classList.remove("hidden")
     }
 
 }
