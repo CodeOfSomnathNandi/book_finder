@@ -10,11 +10,11 @@ window.onload = (ev) => {
         document.getElementById("loadingScreen").style.display = "none"
         document.getElementById("not_found").classList.remove("hidden")
     }
-
+    console.log("onlog called")
 }
 
 
-function createCard(previewImage, bookTitle, bookDescription, authorName, buyLink) {
+function createCard(previewImage, bookTitle, bookDescription, authorName, id) {
     // Create elements
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card', 'mb-3');
@@ -42,7 +42,7 @@ function createCard(previewImage, bookTitle, bookDescription, authorName, buyLin
     const titleElement = document.createElement('h5');
     const a = document.createElement("a")
     a.style.textDecoration = "none"
-    a.href = buyLink
+    a.href = `book_preview_page.html?id=${id}`
     a.text = bookTitle;
     titleElement.classList.add('card-title');
     titleElement.appendChild(a)
@@ -75,9 +75,9 @@ function createCard(previewImage, bookTitle, bookDescription, authorName, buyLin
 
 // Example usage:
 
-function add(bookName, authorNames, description, previewImage, buyLink) {
+function add(bookName, authorNames, description, previewImage, id) {
     const cardContainer = document.getElementById('books_blog'); // Assuming you have a container in your HTML to append the cards
-    let card = createCard(previewImage, bookName, description, authorNames, buyLink)
+    let card = createCard(previewImage, bookName, description, authorNames, id)
     cardContainer.appendChild(card)
 }
 
@@ -97,8 +97,7 @@ function handleJson(books_json) {
         if (authorNames === undefined || authorNames == null) {
             authorNames = ""
         }
-        const  buyLink = `https://play.google.com/store/books/details?id=${id}`
-        add(bookName, authorNames.toString(), description, previewImage, buyLink)
+        add(bookName, authorNames.toString(), description, previewImage, id)
     }
     document.getElementById("loadingScreen").style.display = "none"
     document.getElementById("books_blog").classList.remove("hidden")

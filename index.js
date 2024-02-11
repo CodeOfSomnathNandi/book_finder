@@ -43,19 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         forward()
-        // if (searchTerm === "") {
-        //     console.log("Empty string")
-        //     return;
-        // }
-        //
-        // searchTerm.replaceAll(" ", "+")
-
-        // fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
-        //     .then(response => {
-        //         response.json().then(r => {
-        //             handleJson(r)
-        //         })
-        //     })
 
     });
 
@@ -73,8 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
+/**
+ * https://archive.org/services/search/beta/page_production/?user_query=c+language&hits_per_page=100&page=1&aggregations=false&uid=R%3A7c30397b5ace95d1508f-S%3A1c937e84f0b502797079-P%3A1-K%3Ah-T%3A1707684312929&client_url=https%3A%2F%2Farchive.org%2Fsearch%3Fquery%3Dc%2Blanguage
+ */
 
 
 
