@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Perform your search functionality here
         const searchTerm = document.getElementById('searchInput').value;
         console.log('Searching for:', searchTerm);
-
+        searchTerm.replaceAll(" ", "+")
 
         fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
             .then(response => {
