@@ -1,3 +1,10 @@
 .narrow-column {
     width: 70%;
 }
+
+
+.div_special {
+    display: grid;
+    align-content: center;
+    padding-top: 35vh;
+}
