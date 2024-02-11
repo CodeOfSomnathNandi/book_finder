@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Searching for:', searchTerm);
 
 
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`)
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
             .then(response => {
                 response.json().then(r => {
                     handleJson(r)
