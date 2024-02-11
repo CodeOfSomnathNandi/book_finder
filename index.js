@@ -11,7 +11,13 @@ function addBooksToDom(bookName, bookAuthors, bookDescription) {
     let bookTd = document.createElement("td")
     bookTd.innerText = bookName
     let bookAuthorTd = document.createElement("td")
-    bookAuthorTd.innerText = bookAuthors.toString()
+
+    if (bookAuthors === undefined || bookAuthors == null) {
+        bookAuthorTd.innerText = ""
+    } else {
+        bookAuthorTd.innerText = bookAuthors.toString()
+    }
+
     let bookDescriptionTd = document.createElement("td")
     bookDescriptionTd.innerText = bookDescription
     bookDescriptionTd.classList.add("narrow-column")
