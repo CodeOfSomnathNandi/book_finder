@@ -6,33 +6,6 @@ function setStyleTag() {
     document.head.appendChild(linker)
 }
 
-
-function addBooksToDom(bookName, bookAuthors, bookDescription) {
-    let bookTd = document.createElement("td")
-    bookTd.innerText = bookName
-    let bookAuthorTd = document.createElement("td")
-
-    if (bookAuthors === undefined || bookAuthors == null) {
-        bookAuthorTd.innerText = ""
-    } else {
-        bookAuthorTd.innerText = bookAuthors.toString()
-    }
-
-    let bookDescriptionTd = document.createElement("td")
-    bookDescriptionTd.innerText = bookDescription
-    bookDescriptionTd.classList.add("narrow-column")
-    let tr = document.createElement("tr")
-    tr.appendChild(bookTd)
-    tr.appendChild(bookAuthorTd)
-    tr.appendChild(bookDescriptionTd)
-    let table_body = document.getElementById("table-body")
-    table_body.appendChild(tr)
-}
-
-function indexPage() {
-
-}
-
 function handleJson(books_json) {
     let table_body = document.getElementById("table-body")
     table_body.innerHTML = '';

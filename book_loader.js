@@ -3,62 +3,13 @@
 // })
 
 window.onload = (ev) => {
-    init()
-}
-
-function setBooksToDom(bookName, bookAuthor, bookDescription, previewImage) {
-    let booksDiv = document.getElementById("books_blog");
-
-    let cardDiv = document.createElement("div")
-    cardDiv.classList.add("card", "mb-3", "mt-3")
-
-    let rowDiv = document.createElement("div")
-    rowDiv.classList.add("row", "g-0")
-    let colDiv = document.createElement("div")
-    colDiv.classList.add("col-md-4")
-    let img = document.createElement("img")
-    img.classList.add("img-fluid", "rounded-start")
-    img.alt = "book"
-    img.src = previewImage
-    let secondColDiv = document.createElement("div")
-    secondColDiv.classList.add("col-md-8")
-    let cardBodyDiv = document.createElement("div")
-    cardBodyDiv.classList.add("card-body")
-
-    let h5 = document.createElement("h5")
-    h5.classList.add("card-title")
-    h5.innerText = bookName
-
-    let authorP = document.createElement("p")
-    let smallContainer = document.createElement("small")
-    smallContainer.classList.add("text-body-secondary")
-    smallContainer.innerText = bookAuthor
-    authorP.classList.add("card-text")
-    authorP.appendChild(smallContainer)
-
-    let descriptionP = document.createElement("p")
-    descriptionP.classList.add("card-text")
-    descriptionP.innerText = bookDescription
-
-    // appending
-    cardBodyDiv.appendChild(h5)
-    cardBodyDiv.appendChild(authorP)
-    cardBodyDiv.appendChild(descriptionP)
-
-    secondColDiv.appendChild(cardBodyDiv)
-    colDiv.appendChild(img)
-
-    rowDiv.appendChild(img)
-    rowDiv.appendChild(cardBodyDiv)
-
-    cardDiv.appendChild(rowDiv)
-
-    booksDiv.appendChild(cardDiv)
-
+    if (localStorage.getItem("search") != null) {
+        init()
+    }
 }
 
 
-function createCard(imageSource, cardTitle, cardText, lastUpdated) {
+function createCard(imageSource, cardTitle, cardText, lastUpdated, buyLink) {
     // Create elements
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card', 'mb-3');
@@ -84,8 +35,12 @@ function createCard(imageSource, cardTitle, cardText, lastUpdated) {
     cardBodyDiv.classList.add('card-body');
 
     const titleElement = document.createElement('h5');
+    const a = document.createElement("a")
+    a.style.textDecoration = "none"
+    a.href = buyLink
+    a.text = cardTitle;
     titleElement.classList.add('card-title');
-    titleElement.textContent = cardTitle;
+    titleElement.appendChild(a)
 
     const textElement = document.createElement('p');
     textElement.classList.add('card-text');
@@ -113,9 +68,9 @@ function createCard(imageSource, cardTitle, cardText, lastUpdated) {
 
 // Example usage:
 
-function add(bookName, authorNames, description, previewImage) {
+function add(bookName, authorNames, description, previewImage, buyLink) {
     const cardContainer = document.getElementById('books_blog'); // Assuming you have a container in your HTML to append the cards
-    let card = createCard(previewImage, bookName, description, authorNames)
+    let card = createCard(previewImage, bookName, description, authorNames, buyLink)
     cardContainer.appendChild(card)
 }
 
@@ -128,6 +83,7 @@ function handleJson(books_json) {
         const bookName = books[i]["volumeInfo"]["title"]
         let authorNames = books[i]["volumeInfo"]["authors"]
         const description = books[i]["volumeInfo"]["description"]
+        const id =  books[i]["id"]
         let previewImage = "default_book.png"
         try {
              previewImage = books[i]["volumeInfo"]["imageLinks"]["smallThumbnail"]
@@ -138,8 +94,12 @@ function handleJson(books_json) {
         if (authorNames === undefined || authorNames == null) {
             authorNames = ""
         }
-        add(bookName, authorNames.toString(), description, previewImage)
+        const  buyLink = `https://play.google.com/store/books/details?id=${id}`
+        add(bookName, authorNames.toString(), description, previewImage, buyLink)
     }
+    document.getElementById("loadingScreen").style.display = "none"
+    document.getElementById("books_blog").classList.remove("hidden")
+
 }
 
 function getContent(searchTerm) {
