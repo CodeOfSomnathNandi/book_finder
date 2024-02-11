@@ -24,7 +24,7 @@ function createCard(imageSource, cardTitle, cardText, lastUpdated, buyLink) {
     rowDiv.classList.add('row', 'g-0');
 
     const imageColDiv = document.createElement('div');
-    imageColDiv.classList.add('col-md-4');
+    imageColDiv.classList.add('col-md-2');
 
     const imgElement = document.createElement('img');
     imgElement.src = imageSource;
@@ -49,6 +49,7 @@ function createCard(imageSource, cardTitle, cardText, lastUpdated, buyLink) {
 
     const textElement = document.createElement('p');
     textElement.classList.add('card-text');
+    textElement.classList.add("text-truncate")
     textElement.textContent = cardText;
 
     const lastUpdatedElement = document.createElement('p');
