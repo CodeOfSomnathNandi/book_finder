@@ -91,12 +91,8 @@ function handleJson(books_json) {
         let authorNames = books[i]["volumeInfo"]["authors"]
         const description = books[i]["volumeInfo"]["description"]
         const id =  books[i]["id"]
-        let previewImage = "default_book.png"
-        try {
-             previewImage = books[i]["volumeInfo"]["imageLinks"]["smallThumbnail"]
-        } catch (e) {
-            console.log(`Not found in ${i}`)
-        }
+        let previewImage = `https://books.google.com/books/publisher/content/images/frontcover/${id}?fife=w480-h690`
+
         // addBooksToDom(bookName, authorNames, description)
         if (authorNames === undefined || authorNames == null) {
             authorNames = ""
