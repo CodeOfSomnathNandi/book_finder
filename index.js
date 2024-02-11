@@ -45,6 +45,15 @@ function handleJson(books_json) {
     }
 }
 
+function forward() {
+    let a = document.createElement("a")
+    a.href = "books.html"
+    a.click()
+}
+
+
+
+
 setStyleTag()
 // search listener
 document.addEventListener('DOMContentLoaded', function() {
@@ -54,19 +63,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Perform your search functionality here
         const searchTerm = document.getElementById('searchInput').value;
-        if (searchTerm === "") {
-            console.log("Empty string")
-            return;
-        }
-        console.log('Searching for:', searchTerm);
-        searchTerm.replaceAll(" ", "+")
+        localStorage.setItem("search", searchTerm)
+        forward()
+        // if (searchTerm === "") {
+        //     console.log("Empty string")
+        //     return;
+        // }
+        //
+        // searchTerm.replaceAll(" ", "+")
 
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
-            .then(response => {
-                response.json().then(r => {
-                    handleJson(r)
-                })
-            })
+        // fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
+        //     .then(response => {
+        //         response.json().then(r => {
+        //             handleJson(r)
+        //         })
+        //     })
 
     });
 
@@ -74,10 +85,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     mainSearch.addEventListener("submit", (event) => {
         event.preventDefault()
-        console.log("main search")
+        const searchTerm = document.getElementById('mainSearchInput').value;
+        localStorage.setItem("search", searchTerm)
+        forward()
     })
 
 });
+
+
+
+
 
 
 
