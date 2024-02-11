@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Perform your search functionality here
         const searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm === "") {
+            console.log("Empty string")
+            return;
+        }
         console.log('Searching for:', searchTerm);
         searchTerm.replaceAll(" ", "+")
 
@@ -65,7 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
             })
 
     });
-    console.log("envent")
+
+    const mainSearch = document.getElementById("mainSearch")
+
+    mainSearch.addEventListener("submit", (event) => {
+        event.preventDefault()
+        console.log("main search")
+    })
+
 });
 
 
