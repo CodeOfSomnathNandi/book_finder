@@ -36,7 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Perform your search functionality here
         const searchTerm = document.getElementById('searchInput').value;
-        localStorage.setItem("search", searchTerm)
+        if (searchTerm.trim().length === 0) {
+            console.log("length === 0")
+        } else {
+            localStorage.setItem("search", searchTerm)
+        }
+
         forward()
         // if (searchTerm === "") {
         //     console.log("Empty string")
@@ -59,7 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
     mainSearch.addEventListener("submit", (event) => {
         event.preventDefault()
         const searchTerm = document.getElementById('mainSearchInput').value;
-        localStorage.setItem("search", searchTerm)
+        if (searchTerm.trim().length !== 0) {
+            localStorage.setItem("search", searchTerm)
+        }
         forward()
     })
 

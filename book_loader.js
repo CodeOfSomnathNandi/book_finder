@@ -3,9 +3,13 @@
 // })
 
 window.onload = (ev) => {
-    if (localStorage.getItem("search") != null) {
+    if (localStorage.getItem("search") != null && localStorage.getItem("search") !== "") {
+        console.log(localStorage.getItem("search"))
         init()
+    } else {
+        document.getElementById("loadingScreen").style.display = "none"
     }
+
 }
 
 
@@ -114,6 +118,8 @@ function getContent(searchTerm) {
 
 function init() {
     let searchItem = localStorage.getItem("search")
+    console.log(localStorage)
+    console.log(`search term ${searchItem}`)
     getContent(searchItem)
     localStorage.removeItem("search")
 }
