@@ -14,7 +14,7 @@ window.onload = (ev) => {
 }
 
 
-function createCard(imageSource, cardTitle, cardText, lastUpdated, buyLink) {
+function createCard(previewImage, bookTitle, bookDescription, authorName, buyLink) {
     // Create elements
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card', 'mb-3');
@@ -27,7 +27,7 @@ function createCard(imageSource, cardTitle, cardText, lastUpdated, buyLink) {
     imageColDiv.classList.add('col-md-2');
 
     const imgElement = document.createElement('img');
-    imgElement.src = imageSource;
+    imgElement.src = previewImage;
     imgElement.style.height = "100%"
     // imgElement.style.width = "100%"
     imgElement.classList.add('img-fluid', 'rounded-start');
@@ -43,20 +43,21 @@ function createCard(imageSource, cardTitle, cardText, lastUpdated, buyLink) {
     const a = document.createElement("a")
     a.style.textDecoration = "none"
     a.href = buyLink
-    a.text = cardTitle;
+    a.text = bookTitle;
     titleElement.classList.add('card-title');
     titleElement.appendChild(a)
 
     const textElement = document.createElement('p');
     textElement.classList.add('card-text');
-    textElement.classList.add("text-truncate")
-    textElement.textContent = cardText;
+    textElement.classList.add("truncate-after-2-lines")
+    // <button type="button" class="btn btn-primary btn-sm">Small button</button>
+    textElement.textContent = bookDescription;
 
     const lastUpdatedElement = document.createElement('p');
     lastUpdatedElement.classList.add('card-text');
     const smallElement = document.createElement('small');
     smallElement.classList.add('text-body-secondary');
-    smallElement.textContent = lastUpdated;
+    smallElement.textContent = authorName;
     lastUpdatedElement.appendChild(smallElement);
 
     // Assemble elements
