@@ -29,7 +29,10 @@ function addBooksToDom(bookName, bookAuthors, bookDescription) {
     table_body.appendChild(tr)
 }
 
-setStyleTag()
+function indexPage() {
+
+}
+
 function handleJson(books_json) {
     let table_body = document.getElementById("table-body")
     table_body.innerHTML = '';
@@ -38,10 +41,11 @@ function handleJson(books_json) {
         const bookName = books[i]["volumeInfo"]["title"]
         const authorNames = books[i]["volumeInfo"]["authors"]
         const description = books[i]["volumeInfo"]["description"]
-        addBooksToDom(bookName, authorNames, description)
+        // addBooksToDom(bookName, authorNames, description)
     }
 }
 
+setStyleTag()
 // search listener
 document.addEventListener('DOMContentLoaded', function() {
     const searchForm = document.getElementById('searchForm');
