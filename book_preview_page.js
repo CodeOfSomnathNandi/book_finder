@@ -24,7 +24,13 @@ function handleArchiveJson(volumeInfo, id) {
 
     document.getElementById("type").textContent = "Type: Ebook"
 
-    let downloadLink = volumeInfo["files"][1]["name"]
+    let downloadLink = "no"
+    for (let i = 0; i < volumeInfo["files"].length; i++) {
+        downloadLink = volumeInfo["files"][i]["name"]
+        if (downloadLink.includes("pdf")) {
+            break
+        }
+    }
 
     document.getElementById("freeSample").addEventListener("click", (ev) => {
         let a = document.createElement("a")
