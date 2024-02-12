@@ -28,6 +28,7 @@ function handleArchiveJson(volumeInfo, id) {
     for (let i = 0; i < volumeInfo["files"].length; i++) {
         downloadLink = volumeInfo["files"][i]["name"]
         if (downloadLink.includes(".pdf")) {
+            console.log(`download link: ${downloadLink}`)
             break
         }
     }
