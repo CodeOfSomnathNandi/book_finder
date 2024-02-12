@@ -14,7 +14,7 @@ window.onload = (ev) => {
 }
 
 
-function createCard(previewImage, bookTitle, bookDescription, authorName, id) {
+function createCard(previewImage, bookTitle, bookDescription, authorName, id, nameOfPage) {
     // Create elements
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card', 'mb-3');
@@ -42,7 +42,7 @@ function createCard(previewImage, bookTitle, bookDescription, authorName, id) {
     const titleElement = document.createElement('h5');
     const a = document.createElement("a")
     a.style.textDecoration = "none"
-    a.href = `book_preview_page.html?id=${id}`
+    a.href = `book_preview_page.html?id=${id}&type=${nameOfPage}`
     a.text = bookTitle;
     titleElement.classList.add('card-title');
     titleElement.appendChild(a)
@@ -75,10 +75,10 @@ function createCard(previewImage, bookTitle, bookDescription, authorName, id) {
 
 // Example usage:
 
-function add(bookName, authorNames, description, previewImage, id) {
+function add(bookName, authorNames, description, previewImage, id, name) {
     const cardContainer = document.getElementById('books_blog'); // Assuming you have a container in your HTML to append the cards
 
-    let card = createCard(previewImage, bookName, description, authorNames, id)
+    let card = createCard(previewImage, bookName, description, authorNames, id, name)
     cardContainer.appendChild(card)
 }
 
@@ -93,7 +93,7 @@ function handleInternetArchiveJson(books_json) {
         if (authorNames === undefined || authorNames == null) {
             authorNames = ""
         }
-        add(bookTitle, authorNames.toString(), description, previewImage, identifier)
+        add(bookTitle, authorNames.toString(), description, previewImage, identifier, "archive")
     }
     document.getElementById("loadingScreen").style.display = "none"
     document.getElementById("books_blog").classList.remove("hidden")
@@ -115,7 +115,7 @@ function handleJson(books_json) {
         if (authorNames === undefined || authorNames == null) {
             authorNames = ""
         }
-        add(bookName, authorNames.toString(), description, previewImage, id)
+        add(bookName, authorNames.toString(), description, previewImage, id, "google")
     }
     document.getElementById("loadingScreen").style.display = "none"
     document.getElementById("books_blog").classList.remove("hidden")
@@ -132,10 +132,11 @@ function getContent(searchTerm, page_number) {
             })
     }
 
-
+    // https://archive.org/search?query=c+language&and%5B%5D=mediatype%3A%22texts%22
+    // https://archive.org/services/search/beta/page_production/?user_query=java+language&hits_per_page=100&page=1&filter_map={%22mediatype%22%3A{%22texts%22%3A%22inc%22}}&aggregations=false
     let hits_per_page = 20
     console.log(`page_number: ${page_number}`)
-    fetch(`https://archive.org/services/search/beta/page_production/?user_query=${searchTerm}&hits_per_page=${hits_per_page}&page=${page_number}`)
+    fetch(`https://archive.org/services/search/beta/page_production/?user_query=${searchTerm}&hits_per_page=${hits_per_page}&page=${page_number}&filter_map={%22mediatype%22%3A{%22texts%22%3A%22inc%22}}&aggregations=false`)
         .then(response => {
             response.json().then(r => {
                 let totalPage = Math.floor( Number(r["response"]["body"]["hits"]["total"]) / hits_per_page)
