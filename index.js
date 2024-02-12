@@ -18,9 +18,9 @@ function handleJson(books_json) {
     }
 }
 
-function forward() {
+function forward(searchTerm) {
     let a = document.createElement("a")
-    a.href = "books.html"
+    a.href = `books.html?q=${searchTerm}&page_number=1`
     a.click()
 }
 
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             localStorage.setItem("search", searchTerm)
         }
-
-        forward()
+        searchTerm.replaceAll(" ", "+")
+        forward(searchTerm)
 
     });
 
@@ -54,14 +54,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchTerm.trim().length !== 0) {
             localStorage.setItem("search", searchTerm)
         }
-        forward()
+        searchTerm.replaceAll(" ", "+")
+        forward(searchTerm)
     })
 
 });
 
 
 /**
- * https://archive.org/services/search/beta/page_production/?user_query=c+language&hits_per_page=100&page=1&aggregations=false&uid=R%3A7c30397b5ace95d1508f-S%3A1c937e84f0b502797079-P%3A1-K%3Ah-T%3A1707684312929&client_url=https%3A%2F%2Farchive.org%2Fsearch%3Fquery%3Dc%2Blanguage
+ * https://archive.org/services/search/beta/page_production/?user_query=c+language&hits_per_page=100&page=1
+ *  response -> body -> hits -> hits -> index (i)
+ *  user_query=c+language
+ *  page=1
  */
 
 

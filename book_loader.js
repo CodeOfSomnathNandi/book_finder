@@ -3,14 +3,14 @@
 // })
 
 window.onload = (ev) => {
-    if (localStorage.getItem("search") != null && localStorage.getItem("search") !== "") {
-        console.log(localStorage.getItem("search"))
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("q") != null && urlParams.get("q") !== "") {
         init()
     } else {
         document.getElementById("loadingScreen").style.display = "none"
         document.getElementById("not_found").classList.remove("hidden")
     }
-    console.log("onlog called")
+
 }
 
 
@@ -77,11 +77,29 @@ function createCard(previewImage, bookTitle, bookDescription, authorName, id) {
 
 function add(bookName, authorNames, description, previewImage, id) {
     const cardContainer = document.getElementById('books_blog'); // Assuming you have a container in your HTML to append the cards
+
     let card = createCard(previewImage, bookName, description, authorNames, id)
     cardContainer.appendChild(card)
 }
 
+function handleInternetArchiveJson(books_json) {
+    let books = books_json["response"]["body"]["hits"]["hits"]
+    for (let i = 0; i < books.length; i++) {
+        let identifier = books[i]["fields"]["identifier"]
+        let previewImage = `https://archive.org/services/img/${identifier}`
+        let bookTitle = books[i]["fields"]["title"]
+        let authorNames = books[i]["fields"]["authors"]
+        let description = books[i]["fields"]["description"]
+        if (authorNames === undefined || authorNames == null) {
+            authorNames = ""
+        }
+        add(bookTitle, authorNames.toString(), description, previewImage, identifier)
+    }
+    document.getElementById("loadingScreen").style.display = "none"
+    document.getElementById("books_blog").classList.remove("hidden")
+    document.getElementById("footer").classList.remove("hidden")
 
+}
 
 
 function handleJson(books_json) {
@@ -104,20 +122,39 @@ function handleJson(books_json) {
 
 }
 
-function getContent(searchTerm) {
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
+function getContent(searchTerm, page_number) {
+    if (page_number === 1) {
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`)
+            .then(response => {
+                response.json().then(r => {
+                    handleJson(r)
+                })
+            })
+    }
+
+
+    let hits_per_page = 20
+    console.log(`page_number: ${page_number}`)
+    fetch(`https://archive.org/services/search/beta/page_production/?user_query=${searchTerm}&hits_per_page=${hits_per_page}&page=${page_number}`)
         .then(response => {
             response.json().then(r => {
-                handleJson(r)
-                // console.log(r)
+                let totalPage = Math.floor( Number(r["response"]["body"]["hits"]["total"]) / hits_per_page)
+                document.getElementById("totalPage").innerText = `${totalPage}`
+                handleInternetArchiveJson(r)
+                document.title = `Book List - Page number ${page_number}`
+                document.getElementById("previousPage").href = `books.html?q=${searchTerm}&page_number=${page_number}`
+                page_number += 1
+                document.getElementById("nextPage").href = `books.html?q=${searchTerm}&page_number=${page_number}`
+
             })
         })
+
 }
 
 function init() {
-    let searchItem = localStorage.getItem("search")
-    console.log(localStorage)
+    const urlParams = new URLSearchParams(window.location.search);
+    let searchItem = urlParams.get("q")
     console.log(`search term ${searchItem}`)
-    getContent(searchItem)
+    getContent(searchItem, Number(urlParams.get("page_number")))
     localStorage.removeItem("search")
 }
